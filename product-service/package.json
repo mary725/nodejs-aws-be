@@ -5,6 +5,8 @@
   "main": "serverless.ts",
   "scripts": {
     "deploy": "sls deploy",
+    "swagger:download": "serverless downloadDocumentation --outputFileName=swagger.yaml",
+    "deploy:swagger": "npm run deploy && npm run swagger:download",
     "deploy:getProductsList": "serverless deploy function -f getProductsList",
     "deploy:getProductById": "serverless deploy function -f getProductById",
     "deploy:product-service": "npm run deploy:getProductById && npm run deploy:getProductsList",
@@ -32,6 +34,7 @@
     "jest": "^26.6.3",
     "json-schema-to-ts": "^1.5.0",
     "serverless": "^2.23.0",
+    "serverless-aws-documentation": "^1.1.0",
     "serverless-webpack": "^5.3.5",
     "ts-jest": "^26.5.4",
     "ts-loader": "^8.0.15",

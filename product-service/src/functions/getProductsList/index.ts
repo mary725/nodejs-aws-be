@@ -6,7 +6,20 @@ export default {
     {
       http: {
         method: 'get',
-        path: 'products'
+        path: 'products',
+        documentation: {
+          summary: 'Get products',
+          description: 'Gets all products',
+          tags: ['products'],
+          methodResponses: [
+            {
+              statusCode: '200',
+              responseModels: {
+                'application/json': 'ProductList'
+              }
+            }
+          ]
+        }
       }
     }
   ]
