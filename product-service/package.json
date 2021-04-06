@@ -4,14 +4,23 @@
   "description": "Serverless aws-nodejs-typescript template",
   "main": "serverless.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "sls deploy",
+    "deploy:getProductsList": "serverless deploy function -f getProductsList",
+    "deploy:getProductById": "serverless deploy function -f getProductById",
+    "deploy:product-service": "npm run deploy:getProductById && npm run deploy:getProductsList",
+    "invoke:getProductsList": "serverless local --function getProductsList",
+    "invoke:getProductById": "serverless local --function getProductById --path=src/functions/getProductById/mock.json",
+    "invoke:locale:getProductsList": "serverless invoke local --function getProductsList",
+    "invoke:locale:getProductById": "serverless invoke local --function getProductById --path=src/functions/getProductById/mock.json",
   },
   "engines": {
     "node": ">=12.19.0"
   },
   "dependencies": {
     "@middy/core": "^1.5.2",
+    "@middy/http-cors": "^1.5.2",
     "@middy/http-json-body-parser": "^1.5.2",
+    "@middy/http-urlencode-path-parser": "^1.5.2",
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
