@@ -17,6 +17,12 @@ export default {
               responseModels: {
                 'application/json': 'ProductList'
               }
+            },
+            {
+              statusCode: '500',
+              responseModels: {
+                'application/json': 'ErrorResponse'
+              }
             }
           ]
         }

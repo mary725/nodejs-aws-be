@@ -1,1 +1,1 @@
-export * from './productNotFound';
+export * from './commonError';

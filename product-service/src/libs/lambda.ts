@@ -8,11 +8,11 @@ const httpErrorHandler = () => { // @middy/http-error-handler
     onError: (handler, next) => {
       // if there are a `statusCode` and an `error` field
       // this is a valid http error object
-      if (handler.error.statusCode && handler.error.message) {
+      if (handler.error.message) {
         console.error(handler.error);
 
         handler.response = {
-          statusCode: handler.error.statusCode,
+          statusCode: handler.error.statusCode || 500,
           body: JSON.stringify({ message: handler.error.message })
         }
 

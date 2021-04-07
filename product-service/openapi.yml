@@ -24,8 +24,13 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/Product'
-    ProductNotFound:
-      type: string
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
 info:
   title: product-service API
   description: This is the best API ever
@@ -46,6 +51,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductList'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   '/products/{productId}':
     get:
       operationId: getProductById
@@ -70,8 +81,14 @@ paths:
         '404':
           description: Status 404 Response
           content:
-            text/plain:
+            application/json:
               schema:
-                $ref: '#/components/schemas/ProductNotFound'
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 servers:
   - url: 'https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev'

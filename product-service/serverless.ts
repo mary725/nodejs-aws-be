@@ -44,10 +44,14 @@ const serverlessConfiguration: AWS = {
           }
         },
         {
-          name: 'ProductNotFound',
-          contentType: 'text/plain',
+          name: 'ErrorResponse',
+          contentType: 'application/json',
           schema: {
-            type: 'string'
+            type: 'object',
+            properties: {
+                message: { type: 'string' }
+            },
+            required: ['message']
           }
         }
       ]

@@ -30,7 +30,13 @@ export default {
             {
               statusCode: '404',
               responseModels: {
-                "text/plain": "ProductNotFound"
+                'application/json': 'ErrorResponse'
+              }
+            },
+            {
+              statusCode: '500',
+              responseModels: {
+                'application/json': 'ErrorResponse'
               }
             }
           ]
