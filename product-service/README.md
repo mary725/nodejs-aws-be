@@ -20,9 +20,9 @@ Open [Product by id](https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev/
 
 ## Swagger
 
-Copy the content from "swagger.yaml" and paste it to https://editor.swagger.io/
+Copy the content from "openapi.yml" and paste it to https://editor.swagger.io/
 
-Documentation link: https://www.serverless.com/plugins/serverless-aws-documentation
+Used package for OpenAPI is https://github.com/conqa/serverless-openapi-documentation - a fork of https://www.serverless.com/plugins/serverless-openapi-documentation.
 
 ## Installation/deployment instructions
 

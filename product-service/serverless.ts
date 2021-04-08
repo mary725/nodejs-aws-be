@@ -13,13 +13,14 @@ const serverlessConfiguration: AWS = {
       includeModules: true,
     },
     documentation: {
-      api: {
-        info: {
-          version: '2',
-          title: 'product-service API',
-          description: 'This is the best API ever'
+      version: '1',
+      title: 'product-service API',
+      description: 'This is the best API ever',
+      servers: [
+        {
+          url: 'https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev'
         }
-      },
+      ],
       tags: [
         {
           name: 'products'
@@ -38,7 +39,7 @@ const serverlessConfiguration: AWS = {
           schema: {
             type: 'array',
             items: {
-              $ref: '{{model: Product}}'
+              $ref: '#/components/schemas/Product'
             }
           }
         },
@@ -52,7 +53,7 @@ const serverlessConfiguration: AWS = {
       ]
     }
   },
-  plugins: ['serverless-webpack', 'serverless-aws-documentation'],
+  plugins: ['serverless-webpack', '@conqa/serverless-openapi-documentation'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',

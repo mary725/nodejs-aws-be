@@ -6,7 +6,7 @@ export default {
     {
       http: {
         method: 'get',
-        path: '/products/{productId}',
+        path: 'products/{productId}',
         documentation: {
           summary: 'Get product by ID',
           description: 'Gets product data by ID',
@@ -15,7 +15,9 @@ export default {
             {
               name: 'productId',
               description: 'ID of the product you want to get',
-              required: true
+              schema: {
+                type: 'string'
+              }
             }
           ],
           methodResponses: [

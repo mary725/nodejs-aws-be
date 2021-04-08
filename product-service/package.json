@@ -5,8 +5,8 @@
   "main": "serverless.ts",
   "scripts": {
     "deploy": "sls deploy",
-    "swagger:download": "serverless downloadDocumentation --outputFileName=swagger.yaml",
-    "deploy:swagger": "npm run deploy && npm run swagger:download",
+    "swagger:generate": "serverless openapi generate",
+    "deploy:swagger": "npm run deploy && npm run swagger:generate",
     "deploy:getProductsList": "serverless deploy function -f getProductsList",
     "deploy:getProductById": "serverless deploy function -f getProductById",
     "deploy:product-service": "npm run deploy:getProductById && npm run deploy:getProductsList",
@@ -27,6 +27,7 @@
     "source-map-support": "^0.5.19"
   },
   "devDependencies": {
+    "@conqa/serverless-openapi-documentation": "^1.1.0",
     "@serverless/typescript": "^2.23.0",
     "@types/aws-lambda": "^8.10.71",
     "@types/jest": "^26.0.22",
