@@ -1,0 +1,94 @@
+openapi: 3.0.0
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        count:
+          type: number
+        description:
+          type: string
+        id:
+          type: string
+        price:
+          type: number
+        title:
+          type: string
+      required:
+        - count
+        - description
+        - price
+        - title
+        - id
+    ProductList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+info:
+  title: product-service API
+  description: This is the best API ever
+  version: '1'
+paths:
+  /products:
+    get:
+      operationId: getProductsList
+      summary: Get products
+      description: Gets all products
+      tags:
+        - products
+      parameters: []
+      responses:
+        '200':
+          description: Status 200 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  '/products/{productId}':
+    get:
+      operationId: getProductById
+      summary: Get product by ID
+      description: Gets product data by ID
+      tags:
+        - products
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product you want to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status 200 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Status 404 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+servers:
+  - url: 'https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev'
