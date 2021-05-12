@@ -5,18 +5,30 @@ export default {
   events: [
     {
       http: {
-        method: 'get',
+        method: 'post',
         path: 'products',
         cors: true,
         documentation: {
-          summary: 'Get products',
-          description: 'Gets all products',
+          summary: 'Create product',
+          description: 'Create product',
           tags: ['products'],
+          requestBody: {
+            description: 'A product information object'
+          },
+          requestModels: {
+            'application/json': 'NewProduct'
+          },
           methodResponses: [
             {
-              statusCode: '200',
+              statusCode: '201',
               responseModels: {
-                'application/json': 'ProductList'
+                'application/json': 'Product'
+              }
+            },
+            {
+              statusCode: '400',
+              responseModels: {
+                'application/json': 'ErrorResponse'
               }
             },
             {

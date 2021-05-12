@@ -5,9 +5,9 @@ This project has been generated using the `aws-nodejs-typescript` template from 
 For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
 
 ## APIs
-Open [Products](https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev/products) to get it in the browser.
+Open [Products](https://wbnvs1sebc.execute-api.us-east-1.amazonaws.com/dev/products) to get it in the browser. Use this URL to create a new product
 
-Open [Product by id](https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev/products/7567ec4b-b10c-48c5-9345-fc73c48a80aa) to get it in the browser.
+Open [Product by id](https://wbnvs1sebc.execute-api.us-east-1.amazonaws.com/dev/products/7567ec4b-b10c-48c5-9345-fc73c48a80aa) to get it in the browser.
 
 ## Main scripts
 

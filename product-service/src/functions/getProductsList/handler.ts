@@ -7,7 +7,7 @@ import { middyfy } from '@libs/lambda';
 import ProductService from '../productService';
 
 const getProductsList: ValidatedEventAPIGatewayProxyEvent<void, void> = async () => {
-  const productList = ProductService.Products;
+  const productList = await ProductService.getProducts();
   return formatJSONResponse(productList);
 }
 
