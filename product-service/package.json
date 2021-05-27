@@ -30,6 +30,7 @@
     "@middy/http-urlencode-path-parser": "^1.5.2",
     "@middy/input-output-logger": "^1.5.2",
     "ajv": "^8.3.0",
+    "axios": "^0.21.1",
     "pg": "^8.6.0",
     "source-map-support": "^0.5.19"
   },
