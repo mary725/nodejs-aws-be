@@ -30,6 +30,15 @@ const serverlessConfiguration: AWS = {
         Resource: [
           'arn:aws:s3:::rs-react-app1-import/*'
         ]
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sqs:SendMessage',
+        Resource: [
+          {
+            'Fn::ImportValue': 'SqsArn-dev'
+          }
+        ]
       }
     ],
     apiGateway: {
@@ -38,6 +47,7 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      SQS_URL: '${cf:product-service-dev.SqsUrl}'
     },
     lambdaHashingVersion: '20201221',
   },

@@ -1,11 +1,13 @@
-import { S3 } from 'aws-sdk';
+import { S3, SQS } from 'aws-sdk';
 import * as csvParser from 'csv-parser';
 
 class ImportService {
     private bucketName = 'rs-react-app1-import';
     private sourcePath = 'uploaded';
     private destinationPath = 'parsed';
+    private queueURL = process.env.SQS_URL;
     private s3 = new S3({ region: 'us-east-1', signatureVersion: 'v4' });
+    private sqs = new SQS({ region: 'us-east-1' });
 
     public getSignedUrl = (name: string): Promise<string> => {
       const params = {
@@ -35,8 +37,10 @@ class ImportService {
         console.log('File parsing started');
 
         s3Stream
-          .pipe(csvParser())
-          .on('data', console.log)
+          .pipe(csvParser({
+            mapValues: ({ header, value }) => header === 'price' ||	header === 'count' ? +value : value
+          }))
+          .on('data', this.pushProductToQueue)
           .on('end', () => {
             console.log('File parsing completed successfully');
             resolve(null);
@@ -46,6 +50,15 @@ class ImportService {
             reject(error);
           });
       });
+    }
+
+    private pushProductToQueue = async (product: string) => {
+      console.log(product);
+      await this.sqs.sendMessage({
+          QueueUrl: this.queueURL,
+          MessageBody: JSON.stringify(product),
+        })
+        .promise();
     }
 
     private moveObject = async (key: string) => {

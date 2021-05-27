@@ -3,6 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import getProductsList from '@functions/getProductsList';
 import getProductById from '@functions/getProductById';
 import createProduct from '@functions/createProduct';
+import catalogBatchProcess from '@functions/catalogBatchProcess';
 import { productSchema, newProductSchema } from '@functions/typings';
 
 const serverlessConfiguration: AWS = {
@@ -85,14 +86,86 @@ const serverlessConfiguration: AWS = {
       PG_DATABASE: '${env:PGHOST, ""}',
       PG_USERNAME: '${env:PGHOST, ""}',
       PG_PASSWORD: '${env:PGHOST, ""}',
+      SNS_ARN: {
+        Ref: 'SNSTopic',
+      },
+      CREATE_PRODUCT_URL: {
+        'Fn::Join' : ['', ['https://', { 'Ref' : 'ApiGatewayRestApi' }, '.execute-api.us-east-1.amazonaws.com/dev/products'] ] },
     },
     lambdaHashingVersion: '20201221',
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: 'sns:*',
+        Resource: {
+          Ref: 'SNSTopic'
+        }
+      }
+    ],
+  },
+  resources: {
+    Resources: {
+      SQSQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'rs-react-products-queue',
+        }
+      },
+      SNSTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: 'rs-react-products-topic',
+        }
+      },
+      SNSSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'test.subscription.1+not_enough@outlook.com',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'SNSTopic'
+          },
+          FilterPolicy: {
+            count: [{'numeric': ['<=', 0]}]
+          }
+        }
+      },
+      SNSSubscription2: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          Endpoint: 'test.subscription.1+exist@outlook.com',
+          Protocol: 'email',
+          TopicArn: {
+            Ref: 'SNSTopic'
+          },
+          FilterPolicy: {
+            count: [{'numeric': ['>', 0]}]
+          }
+        }
+      }
+    },
+    Outputs: {
+      SqsUrl: {
+        Value: {
+          Ref: 'SQSQueue'
+        }
+      },
+      SqsArn: {
+        Value: {
+          'Fn::GetAtt': ['SQSQueue', 'Arn']
+        },
+        Export: {
+          Name: 'SqsArn-dev' // custom name
+        }
+      }
+    }
   },
   // import the function via paths
   functions: {
     getProductsList,
     getProductById,
-    createProduct
+    createProduct,
+    catalogBatchProcess
   },
 };
 
