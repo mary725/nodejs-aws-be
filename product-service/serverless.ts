@@ -2,7 +2,8 @@ import type { AWS } from '@serverless/typescript';
 
 import getProductsList from '@functions/getProductsList';
 import getProductById from '@functions/getProductById';
-import { productSchema } from '@functions/typings';
+import createProduct from '@functions/createProduct';
+import { productSchema, newProductSchema } from '@functions/typings';
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
@@ -18,7 +19,7 @@ const serverlessConfiguration: AWS = {
       description: 'This is the best API ever',
       servers: [
         {
-          url: 'https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev'
+          url: 'https://wbnvs1sebc.execute-api.us-east-1.amazonaws.com/dev'
         }
       ],
       tags: [
@@ -29,9 +30,15 @@ const serverlessConfiguration: AWS = {
       models: [
         {
           name: 'Product',
-          description: 'This is an product',
+          description: 'This is a product',
           contentType: 'application/json',
           schema: productSchema
+        },
+        {
+          name: 'NewProduct',
+          description: 'This is a new product',
+          contentType: 'application/json',
+          schema: newProductSchema
         },
         {
           name: 'ProductList',
@@ -57,7 +64,13 @@ const serverlessConfiguration: AWS = {
       ]
     }
   },
-  plugins: ['serverless-webpack', '@conqa/serverless-openapi-documentation'],
+  plugins: [
+    'serverless-webpack',
+    'serverless-offline',
+    '@conqa/serverless-openapi-documentation',
+    'serverless-dotenv-plugin'
+  ],
+  // useDotenv: true, // instead of serverless-dotenv-plugin
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
@@ -67,11 +80,20 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+      PG_HOST: '${env:PGHOST, ""}',
+      PG_PORT: '${env:PGHOST, ""}',
+      PG_DATABASE: '${env:PGHOST, ""}',
+      PG_USERNAME: '${env:PGHOST, ""}',
+      PG_PASSWORD: '${env:PGHOST, ""}',
     },
     lambdaHashingVersion: '20201221',
   },
   // import the function via paths
-  functions: { getProductsList, getProductById },
+  functions: {
+    getProductsList,
+    getProductById,
+    createProduct
+  },
 };
 
 module.exports = serverlessConfiguration;

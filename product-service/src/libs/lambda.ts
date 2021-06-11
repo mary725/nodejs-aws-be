@@ -2,32 +2,22 @@ import middy from '@middy/core';
 import middyJsonBodyParser from '@middy/http-json-body-parser';
 import cors from '@middy/http-cors';
 import httpUrlEncodePathParser from '@middy/http-urlencode-path-parser';
+import inputOutputLogger from '@middy/input-output-logger';
+import { httpErrorHandler } from './httpErrorHandler';
 
-const httpErrorHandler = () => { // @middy/http-error-handler
-  return ({
-    onError: (handler, next) => {
-      // if there are a `statusCode` and an `error` field
-      // this is a valid http error object
-      if (handler.error.message) {
-        console.error(handler.error);
+const defaultInputMiddlewares = [
+  httpUrlEncodePathParser(),
+  middyJsonBodyParser()
+];
 
-        handler.response = {
-          statusCode: handler.error.statusCode || 500,
-          body: JSON.stringify({ message: handler.error.message })
-        }
+const defaultOutputMiddlewares = [
+  httpErrorHandler(),
+  cors()
+];
 
-        return next();
-      }
-
-      return next(handler.error);
-    }
-  })
-}
-
-export const middyfy = (handler) => {
-  return middy(handler)
-    .use(httpUrlEncodePathParser())
-    .use(middyJsonBodyParser())
-    .use(httpErrorHandler())
-    .use(cors());
+export const middyfy = (
+  handler,
+  middlewareBuilder = (iMids, oMids) => [...iMids, ...oMids]) => {
+  return [...middlewareBuilder(defaultInputMiddlewares, defaultOutputMiddlewares), inputOutputLogger()]
+    .reduce((acc, mid) => acc.use(mid), middy(handler));
 }

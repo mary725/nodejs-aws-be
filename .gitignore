@@ -8,6 +8,7 @@ jspm_packages
 
 .webpack
 
+.env.local
 # testing
 /coverage
 
