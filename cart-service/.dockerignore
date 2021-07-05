@@ -1,0 +1,6 @@
+# not used for build process
+/.elasticbeanstalk
+# will be added in the images build process
+/node_modules
+# will be added in the images build process
+/dist
