@@ -20,6 +20,26 @@ components:
         - price
         - title
         - id
+    NewProduct:
+      type: object
+      properties:
+        count:
+          type: number
+          minimum: 0
+        description:
+          type: string
+          minLength: 5
+        price:
+          type: number
+          minimum: 0
+        title:
+          type: string
+          minLength: 10
+      required:
+        - count
+        - description
+        - price
+        - title
     ProductList:
       type: array
       items:
@@ -51,6 +71,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProductList'
+        '500':
+          description: Status 500 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: createProduct
+      summary: Create product
+      description: Create product
+      tags:
+        - products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProduct'
+        description: A product information object
+      parameters: []
+      responses:
+        '201':
+          description: Status 201 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Status 400 Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
         '500':
           description: Status 500 Response
           content:
@@ -91,4 +143,4 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 servers:
-  - url: 'https://bmyfe1s3e1.execute-api.us-east-1.amazonaws.com/dev'
+  - url: 'https://wbnvs1sebc.execute-api.us-east-1.amazonaws.com/dev'
