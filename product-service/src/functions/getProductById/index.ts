@@ -8,6 +8,10 @@ export default {
         method: 'get',
         path: 'products/{productId}',
         cors: true,
+        authorizer: {
+          type: 'COGNITO_USER_POOLS',
+          authorizerId: { Ref: 'ApiGatewayAuthorizer' },
+        },
         documentation: {
           summary: 'Get product by ID',
           description: 'Gets product data by ID',
