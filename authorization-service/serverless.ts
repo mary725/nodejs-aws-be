@@ -55,21 +55,21 @@ const serverlessConfiguration: AWS = {
           },
         },
       },
-      CognitoUserPoolClient: {
-        Type: 'AWS::Cognito::UserPoolClient',
-        Properties: {
-          ClientName: 'products-user-pool-client',
-          GenerateSecret: 'False',
-          SupportedIdentityProviders: ['COGNITO'],
-          AllowedOAuthFlows: ['implicit'],
-          AllowedOAuthScopes: ['phone', 'email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
-          CallbackURLs: ['${env:REACT_APP_URL, ""}'], // TODO: this feature in serverless-dotenv-plugin doesn't work ? https://github.com/neverendingqs/serverless-dotenv-plugin/issues/10
-          AllowedOAuthFlowsUserPoolClient: 'True',
-          UserPoolId: {
-            Ref: 'CognitoUserPool',
-          },
-        },
-      },
+      //CognitoUserPoolClient: { // ENABLE COGNITO
+      //  Type: 'AWS::Cognito::UserPoolClient',
+      //  Properties: {
+      //    ClientName: 'products-user-pool-client',
+      //    GenerateSecret: 'False',
+      //    SupportedIdentityProviders: ['COGNITO'],
+      //    AllowedOAuthFlows: ['implicit'],
+      //    AllowedOAuthScopes: ['phone', 'email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
+      //    CallbackURLs: ['${env:REACT_APP_URL, ""}'], // TODO: this feature in serverless-dotenv-plugin doesn't work ? https://github.com/neverendingqs/serverless-dotenv-plugin/issues/10
+      //    AllowedOAuthFlowsUserPoolClient: 'True',
+      //    UserPoolId: {
+      //      Ref: 'CognitoUserPool',
+      //    },
+      //  },
+      //},
       CognitoUserPoolDomain: {
         Type: 'AWS::Cognito::UserPoolDomain',
         Properties: {
@@ -103,11 +103,11 @@ const serverlessConfiguration: AWS = {
           Ref: 'CognitoUserPool',
         },
       },
-      UserPoolClientId: {
-        Value: {
-          Ref: 'CognitoUserPoolClient'
-        },
-      },
+      //UserPoolClientId: { // ENABLE COGNITO
+      //  Value: {
+      //    Ref: 'CognitoUserPoolClient'
+      //  },
+      //},
     },
   },
 };

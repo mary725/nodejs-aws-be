@@ -105,33 +105,33 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
-      ApiGatewayAuthorizer: {
-        DependsOn: ['ApiGatewayRestApi'],
-        Type: 'AWS::ApiGateway::Authorizer',
-        Properties: {
-          Name: 'cognito-authorizer',
-          IdentitySource: 'method.request.header.Authorization',
-          RestApiId: {
-            Ref: 'ApiGatewayRestApi',
-          },
-          Type: 'COGNITO_USER_POOLS',
-          ProviderARNs: ['${cf:authorization-service-dev.CognitoUserPoolArn}'],
-        },
-      },
-      GatewayResponseDefault4XX: {
-        Type: 'AWS::ApiGateway::GatewayResponse',
-        Properties: {
-          ResponseParameters: {
-            'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
-            'gatewayresponse.header.Access-Control-Allow-Headers': "'*'",
-            'gatewayresponse.header.Access-Control-Allow-Methods': "'GET,OPTIONS'"
-          },
-          ResponseType: 'DEFAULT_4XX',
-          RestApiId: {
-            Ref: 'ApiGatewayRestApi'
-          }
-        }
-      },
+      //ApiGatewayAuthorizer: { // ENABLE COGNITO
+      //  DependsOn: ['ApiGatewayRestApi'],
+      //  Type: 'AWS::ApiGateway::Authorizer',
+      //  Properties: {
+      //    Name: 'cognito-authorizer',
+      //    IdentitySource: 'method.request.header.Authorization',
+      //    RestApiId: {
+      //      Ref: 'ApiGatewayRestApi',
+      //    },
+      //    Type: 'COGNITO_USER_POOLS',
+      //    ProviderARNs: ['${cf:authorization-service-dev.CognitoUserPoolArn}'],
+      //  },
+      //},
+      //GatewayResponseDefault4XX: {
+      //  Type: 'AWS::ApiGateway::GatewayResponse',
+      //  Properties: {
+      //    ResponseParameters: {
+      //      'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+      //      'gatewayresponse.header.Access-Control-Allow-Headers': "'*'",
+      //      'gatewayresponse.header.Access-Control-Allow-Methods': "'GET,OPTIONS'"
+      //    },
+      //    ResponseType: 'DEFAULT_4XX',
+      //    RestApiId: {
+      //      Ref: 'ApiGatewayRestApi'
+      //    }
+      //  }
+      //},
       SQSQueue: {
         Type: 'AWS::SQS::Queue',
         Properties: {
