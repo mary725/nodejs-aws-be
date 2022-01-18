@@ -81,11 +81,11 @@ const serverlessConfiguration: AWS = {
     },
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-      PG_HOST: '${env:PGHOST, ""}',
-      PG_PORT: '${env:PGHOST, ""}',
-      PG_DATABASE: '${env:PGHOST, ""}',
-      PG_USERNAME: '${env:PGHOST, ""}',
-      PG_PASSWORD: '${env:PGHOST, ""}',
+      // PG_HOST: '${env:PGHOST, ""}', // TODO: this feature in serverless-dotenv-plugin doesn't work ? https://github.com/neverendingqs/serverless-dotenv-plugin/issues/10
+      // PG_PORT: '${env:PG_PORT, ""}',
+      // PG_DATABASE: '${env:PG_DATABASE, ""}',
+      // PG_USERNAME: '${env:PG_USERNAME, ""}',
+      // PG_PASSWORD: '${env:PG_PASSWORD, ""}',
       SNS_ARN: {
         Ref: 'SNSTopic',
       },
@@ -105,6 +105,33 @@ const serverlessConfiguration: AWS = {
   },
   resources: {
     Resources: {
+      //ApiGatewayAuthorizer: { // ENABLE COGNITO
+      //  DependsOn: ['ApiGatewayRestApi'],
+      //  Type: 'AWS::ApiGateway::Authorizer',
+      //  Properties: {
+      //    Name: 'cognito-authorizer',
+      //    IdentitySource: 'method.request.header.Authorization',
+      //    RestApiId: {
+      //      Ref: 'ApiGatewayRestApi',
+      //    },
+      //    Type: 'COGNITO_USER_POOLS',
+      //    ProviderARNs: ['${cf:authorization-service-dev.CognitoUserPoolArn}'],
+      //  },
+      //},
+      //GatewayResponseDefault4XX: {
+      //  Type: 'AWS::ApiGateway::GatewayResponse',
+      //  Properties: {
+      //    ResponseParameters: {
+      //      'gatewayresponse.header.Access-Control-Allow-Origin': "'*'",
+      //      'gatewayresponse.header.Access-Control-Allow-Headers': "'*'",
+      //      'gatewayresponse.header.Access-Control-Allow-Methods': "'GET,OPTIONS'"
+      //    },
+      //    ResponseType: 'DEFAULT_4XX',
+      //    RestApiId: {
+      //      Ref: 'ApiGatewayRestApi'
+      //    }
+      //  }
+      //},
       SQSQueue: {
         Type: 'AWS::SQS::Queue',
         Properties: {

@@ -2,9 +2,18 @@
 
 ## Deployment order (based on outputs references)
 
-1. product-service
 1. authorization-service
+1. product-service
 1. import-service
+
+NOTEs:
+
+1. To ENABLE COGNITO AUTHORIZATION for product-service, deployment of this service is required:
+    1. Insert WEB URL to the React app in "authorization-service" -> "serverless.ts" -> "CallbackURLs" before deployment
+    1. Uncomment lines with "ENABLE COGNITO" 
+    1. "cd product-service"
+    1. "npm run deploy"
+    1. Add necessary changes to the React app and re-deploy it as well
 
 ## Docker
 
